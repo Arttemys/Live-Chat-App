@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '20px',
     '& > *': {
       margin: theme.spacing(1),
-      width: '80ch',
+      width: 'auto',
     },
   },
 }));
@@ -43,24 +43,28 @@ const Dashboard = () => {
   const classes = useStyles();
 
   //Context Store
-  const [allChats] = React.useContext(ctx);
+  const {allChats, sendChatAction, user} = React.useContext(ctx);
 
-  console.log({allChats});
+  const topics = Object.keys(allChats);
 
+  // console.log(topics);
+
+  // Local State
+  const [activeTopic, setActiveTopic] = useState(topics[0]);
   const [textValue, setTextValue] = useState('');
     
     return (
         <div className="dash-cotainer">
             <h1>Chat App</h1>
             <div>
-              <h3>Topic placeholder</h3>
+              <h3>{activeTopic}</h3>
             </div>
             <div className="flexcontainer">
               <div className="topic-window">
                 <List>
                     {
-                      ['topic'].map(topic => (
-                          <ListItem key={topic} button>
+                      topics.map(topic => (
+                          <ListItem onClick={ e => setActiveTopic(e.target.innerText)} key={topic} button>
                              <ListItemText primary={topic} />
                           </ListItem>
                       ))
@@ -69,7 +73,7 @@ const Dashboard = () => {
               </div>
               <div className="chat-window">
                     {
-                      [{from: 'user', msg: 'Hello'}].map((chat, i) => (
+                      allChats[activeTopic].map((chat, i) => (
                           <div className="flexcontainer" key={i}>
                              <Chip label={chat.from} className={classes.root}/>
                               <Typography variant='body2'>{chat.msg}</Typography>
@@ -91,6 +95,10 @@ const Dashboard = () => {
                   color="primary"
                   className={classes.button}
                   // endIcon={<Icon></Icon>}
+                  onClick={() => {
+                    sendChatAction({from: user, msg: textValue, topic: activeTopic});
+                    setTextValue('');
+                  }}
                   >
                   Send
             </Button>

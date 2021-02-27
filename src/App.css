@@ -19,6 +19,10 @@ html {
   color: #000;
 }
 
+.dash-cotainer h3 {
+  text-transform: capitalize;
+}
+
 .flexcontainer {
   display: flex;
   align-items: center;
@@ -26,7 +30,7 @@ html {
 
 .topic-window {
   width: 30%;
-  height: 500px;
+  height: auto;
   border-right: 1px solid #000;
   margin-bottom: 50px;
   padding: 20px;
@@ -34,7 +38,7 @@ html {
 
 .chat-window {
   width: 70%;
-  height: 500px;
+  height: auto;
 }
 
 button {
